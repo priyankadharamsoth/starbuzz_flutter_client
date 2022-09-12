@@ -1,9 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:starbuzz_app/screens/nav_bar.dart';
 import 'package:starbuzz_app/utils/auth_button.dart';
 import 'package:starbuzz_app/utils/custom_textfield.dart';
+import 'package:starbuzz_app/utils/database.dart';
 import 'package:starbuzz_app/utils/home_top_splash.dart';
-import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -17,26 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   bool isChecked = false;
 
-  void login(String phone, String password) async {
-    try {
-      Response response = await post(
-        Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=$phone&password=$password"),
-      );
-      print(phone);
-      print(password);
-      print(response.statusCode);
-      print(response.body);
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        print(data);
-        print('logged in succesfully');
-      } else {
-        print("failed");
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  bool _passwordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +46,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
+                Expanded(
                     child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: AuthButton(
@@ -76,12 +58,12 @@ class _LoginPageState extends State<LoginPage> {
                     leftPadding: 20,
                     rightPadding: 20,
                     backgroundColor: Colors.grey.shade200,
-                    categoryIcon: Icons.person_pin,
+                    categoryIcon: Icons.account_circle_rounded,
                     widthBetweenIconAndText: 10,
                     changeTextColor: Colors.black,
                   ),
                 )),
-                Flexible(
+                Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10.0),
                     child: AuthButton(
@@ -107,8 +89,10 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
               child: CustomTextField(
+                obsecureText: false,
                 labelText: "Enter Phone number",
                 controller: phoneController,
+                keyBoard: TextInputType.number,
               ),
             ),
             const Padding(
@@ -121,8 +105,19 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
               child: CustomTextField(
+                obsecureText: _passwordVisible,
                 labelText: "Enter password",
-                trailingIcon: const Icon(Icons.visibility_off),
+                trailingIcon: IconButton(
+                  icon: Icon(
+                    _passwordVisible ? Icons.visibility_off : Icons.visibility,
+                    color: Theme.of(context).primaryColorDark,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                ),
                 controller: passwordController,
               ),
             ),
@@ -150,17 +145,24 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height) * 0.002,
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height) * 0.003,
               child: AuthButton(
                 buttonText: "Login",
                 onPressed: () {
-                  login(phoneController.text, passwordController.text);
+                  StarBuzzService.login(phoneController.text, passwordController.text);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const BottomNavBar(),
+                    ),
+                  );
                 },
                 leftPadding: MediaQuery.of(context).size.height * 0.03,
-                rightPadding: MediaQuery.of(context).size.height * 0.02,
+                rightPadding: MediaQuery.of(context).size.height * 0.03,
+                widthBetweenIconAndText: 0,
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.09),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.15),
             LimitedBox(
               maxHeight: MediaQuery.of(context).size.height * 0.1,
               child: Row(

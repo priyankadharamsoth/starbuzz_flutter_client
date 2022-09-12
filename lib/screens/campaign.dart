@@ -14,6 +14,7 @@ class _CampaignPageState extends State<CampaignPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
         bottomOpacity: 0,
@@ -22,16 +23,16 @@ class _CampaignPageState extends State<CampaignPage> {
         leading: const Icon(Icons.menu_outlined),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 5),
+            padding: const EdgeInsets.only(right: 5),
             child: CircleAvatar(
-              child: Icon(
+              backgroundColor: Colors.grey.shade200,
+              child: const Icon(
                 Icons.notifications_outlined,
                 color: Colors.black,
               ),
-              backgroundColor: Colors.grey.shade200,
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(right: 5),
             child: CircleAvatar(
               child: Icon(Icons.account_circle),
@@ -40,7 +41,12 @@ class _CampaignPageState extends State<CampaignPage> {
         ],
       ),
       body: const CustomGridView(),
-      bottomNavigationBar: const BottomNavBar(),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.headset_mic_outlined,
+            color: Colors.white,
+          )),
     );
   }
 }

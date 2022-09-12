@@ -2,28 +2,38 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   String labelText;
-  Widget? trailingIcon;
+  IconButton? trailingIcon;
   Widget? prefixIcon;
   Color? fillColor;
   TextEditingController? controller;
-  CustomTextField({Key? key, required this.labelText, this.trailingIcon, this.prefixIcon, this.fillColor, this.controller}) : super(key: key);
+  bool obsecureText;
+  TextInputType? keyBoard;
+  CustomTextField(
+      {Key? key,
+      required this.labelText,
+      this.trailingIcon,
+      this.prefixIcon,
+      this.fillColor,
+      this.controller,
+      required this.obsecureText,
+      this.keyBoard})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        obscureText: obsecureText,
         controller: controller,
+        keyboardType: keyBoard,
         decoration: InputDecoration(
           filled: true,
           suffixIcon: Padding(
             padding: const EdgeInsetsDirectional.only(end: 12.0),
             child: trailingIcon,
           ),
-          // prefixIcon: Padding(
-          //   padding: const EdgeInsets.all(0.0),
-          //   child: prefixIcon,
-          // ),
+          prefixIcon: prefixIcon,
           labelText: labelText,
           fillColor: fillColor ?? Colors.white,
           enabledBorder: OutlineInputBorder(
