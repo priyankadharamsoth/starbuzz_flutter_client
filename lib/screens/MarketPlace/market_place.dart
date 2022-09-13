@@ -25,6 +25,9 @@ class _MarketPlaceState extends State<MarketPlace> {
   ];
   Map<String, bool> categoryFilteredMap = <String, bool>{};
 
+  late List<Influencer> filterdInfluencers;
+  late List<Influencer> unfilteredInfluencers;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,40 +90,19 @@ class _MarketPlaceState extends State<MarketPlace> {
                         () {
                           setState(
                             () {
-                              FutureBuilder<List<Influencer>>(
-                                future: StarBuzzService.influencers(),
-                                builder: (context, AsyncSnapshot<List<Influencer>> snapshot) {
-                                  if (snapshot.data == null) {
-                                    return const Center(child: CircularProgressIndicator());
-                                  } else {
-                                    List<Influencer> filterdInfluencers;
-                                    if (categoryFilteredMap.entries.any((element) => element.value)) {
-                                      filterdInfluencers = snapshot.data!
-                                          .where(
-                                            (influencer) => influencer.category!.any(
-                                              (category) => categoryFilteredMap[category] ?? false,
-                                            ),
-                                          )
-                                          .toList();
-                                    } else {
-                                      filterdInfluencers = snapshot.data!;
-                                    }
-
-                                    return ListView.builder(
-                                      physics: const ScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: filterdInfluencers.length,
-                                      itemBuilder: (context, i) {
-                                        return buildCard(
-                                            imageUrl: filterdInfluencers[i].photo,
-                                            name: filterdInfluencers[i].name,
-                                            followerContainerTop: 150,
-                                            followerContainerright: MediaQuery.of(context).size.height * 0.01);
-                                      },
-                                    );
-                                  }
-                                },
-                              );
+                              // check if any filter needs to be applied
+                              if (categoryFilteredMap.entries.any((element) => element.value)) {
+                                filterdInfluencers = unfilteredInfluencers
+                                    // filter the influencers based on categoryFilterMap
+                                    .where(
+                                      (influencer) => influencer.category!.any(
+                                        (category) => categoryFilteredMap[category] ?? false,
+                                      ),
+                                    )
+                                    .toList();
+                              } else {
+                                filterdInfluencers = unfilteredInfluencers;
+                              }
                             },
                           );
                         },
@@ -136,7 +118,7 @@ class _MarketPlaceState extends State<MarketPlace> {
                 if (snapshot.data == null) {
                   return const Center(child: CircularProgressIndicator());
                 } else {
-                  List<Influencer> filterdInfluencers;
+                  unfilteredInfluencers = snapshot.data!;
                   if (categoryFilteredMap.entries.any((element) => element.value)) {
                     filterdInfluencers = snapshot.data!
                         .where(

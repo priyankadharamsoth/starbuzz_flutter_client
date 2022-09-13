@@ -8,7 +8,8 @@ class StarBuzzService {
   static Future<bool> login(String phone, String password) async {
     Response response = await post(
       Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=$phone&password=$password"),
-      // Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=8463932332&password=zxcvbnma"),
+      // Uncomment below line for testing
+      //Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=8463932332&password=zxcvbnma"),
     );
     if (response.statusCode == 200) {
       final prefs = await SharedPreferences.getInstance();
