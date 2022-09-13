@@ -45,7 +45,6 @@ class _MarketPlaceState extends State<MarketPlace> {
               height: 10,
             ),
             Wrap(
-              // mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
@@ -75,7 +74,6 @@ class _MarketPlaceState extends State<MarketPlace> {
                     icon: const Icon(Icons.filter_alt_outlined),
                     color: Theme.of(context).primaryColor,
                     onPressed: () {
-                      //StarBuzzService.influencers();
                       showModalBottomSheet(
                         enableDrag: true,
                         context: context,
@@ -87,42 +85,44 @@ class _MarketPlaceState extends State<MarketPlace> {
                         ),
                       ).whenComplete(
                         () {
-                          setState(() {
-                            FutureBuilder<List<Influencer>>(
-                              future: StarBuzzService.influencers(),
-                              builder: (context, AsyncSnapshot<List<Influencer>> snapshot) {
-                                if (snapshot.data == null) {
-                                  return const Center(child: CircularProgressIndicator());
-                                } else {
-                                  List<Influencer> filterdInfluencers;
-                                  if (categoryFilteredMap.entries.any((element) => element.value)) {
-                                    filterdInfluencers = snapshot.data!
-                                        .where(
-                                          (influencer) => influencer.category!.any(
-                                            (category) => categoryFilteredMap[category] ?? false,
-                                          ),
-                                        )
-                                        .toList();
+                          setState(
+                            () {
+                              FutureBuilder<List<Influencer>>(
+                                future: StarBuzzService.influencers(),
+                                builder: (context, AsyncSnapshot<List<Influencer>> snapshot) {
+                                  if (snapshot.data == null) {
+                                    return const Center(child: CircularProgressIndicator());
                                   } else {
-                                    filterdInfluencers = snapshot.data!;
-                                  }
+                                    List<Influencer> filterdInfluencers;
+                                    if (categoryFilteredMap.entries.any((element) => element.value)) {
+                                      filterdInfluencers = snapshot.data!
+                                          .where(
+                                            (influencer) => influencer.category!.any(
+                                              (category) => categoryFilteredMap[category] ?? false,
+                                            ),
+                                          )
+                                          .toList();
+                                    } else {
+                                      filterdInfluencers = snapshot.data!;
+                                    }
 
-                                  return ListView.builder(
-                                    physics: const ScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: filterdInfluencers.length,
-                                    itemBuilder: (context, i) {
-                                      return buildCard(
-                                          imageUrl: filterdInfluencers[i].photo,
-                                          name: filterdInfluencers[i].name,
-                                          followerContainerTop: 150,
-                                          followerContainerright: MediaQuery.of(context).size.height * 0.01);
-                                    },
-                                  );
-                                }
-                              },
-                            );
-                          });
+                                    return ListView.builder(
+                                      physics: const ScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: filterdInfluencers.length,
+                                      itemBuilder: (context, i) {
+                                        return buildCard(
+                                            imageUrl: filterdInfluencers[i].photo,
+                                            name: filterdInfluencers[i].name,
+                                            followerContainerTop: 150,
+                                            followerContainerright: MediaQuery.of(context).size.height * 0.01);
+                                      },
+                                    );
+                                  }
+                                },
+                              );
+                            },
+                          );
                         },
                       );
                     },
@@ -173,7 +173,7 @@ class _MarketPlaceState extends State<MarketPlace> {
   Card buildCard({String? imageUrl, String? name, required double followerContainerTop, required double followerContainerright}) {
     var supportingText = 'Neon Lighting of brightly glowing , electrified glass tubes or bulbs that contain rarefare neon or other';
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),

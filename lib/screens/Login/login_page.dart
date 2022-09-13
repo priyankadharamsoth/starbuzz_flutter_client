@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starbuzz_app/screens/nav_bar.dart';
 import 'package:starbuzz_app/utils/auth_button.dart';
 import 'package:starbuzz_app/utils/custom_textfield.dart';
@@ -53,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Container(
+                  child: SizedBox(
                     child: AuthButton(
                       buttonText: "Influencer",
                       onPressed: () {},
@@ -150,15 +149,25 @@ class _LoginPageState extends State<LoginPage> {
             Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height) * 0.003,
               child: AuthButton(
+                changeTextColor: Colors.white,
                 buttonText: "Login",
-                onPressed: () {
-                  StarBuzzService.login(phoneController.text, passwordController.text);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const BottomNavBar(),
-                    ),
-                  );
+                onPressed: () async {
+                  if (await StarBuzzService.login(phoneController.text, passwordController.text) == true) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const BottomNavBar(),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          "User doesn't exist",
+                        ),
+                      ),
+                    );
+                  }
                 },
                 leftPadding: MediaQuery.of(context).size.height * 0.03,
                 rightPadding: MediaQuery.of(context).size.height * 0.03,

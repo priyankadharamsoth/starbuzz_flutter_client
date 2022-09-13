@@ -5,20 +5,19 @@ import 'package:starbuzz_app/models/influencers.dart';
 import 'package:starbuzz_app/utils/constants.dart';
 
 class StarBuzzService {
-  static void login(String phone, String password) async {
+  static Future<bool> login(String phone, String password) async {
     Response response = await post(
-      // TODO: reverse before launch
-      //Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=$phone&password=$password"),
-      Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=8463932332&password=zxcvbnma"),
+      Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=$phone&password=$password"),
+      // Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=8463932332&password=zxcvbnma"),
     );
     if (response.statusCode == 200) {
       final prefs = await SharedPreferences.getInstance();
       var responseJson = json.decode(response.body);
       await prefs.setString(SharedPreferenceKeys.userLoginToken, responseJson['token']);
       var data = jsonDecode(response.body);
-      print('logged in succesfully');
+      return true;
     } else {
-      print("failed");
+      return false;
     }
   }
 
