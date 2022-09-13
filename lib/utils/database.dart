@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:starbuzz_app/utils/Influencers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:starbuzz_app/models/influencers.dart';
 import 'package:starbuzz_app/utils/constants.dart';
 
 class StarBuzzService {
   static void login(String phone, String password) async {
     Response response = await post(
-      Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=$phone&password=$password"),
+      // TODO: reverse before launch
+      //Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=$phone&password=$password"),
+      Uri.parse("https://influence-marketing.herokuapp.com/api/login?phone=8463932332&password=zxcvbnma"),
     );
     if (response.statusCode == 200) {
       final prefs = await SharedPreferences.getInstance();
@@ -20,7 +22,7 @@ class StarBuzzService {
     }
   }
 
-  static Future influencers() async {
+  static Future<List<Influencer>> influencers() async {
     var pref = await SharedPreferences.getInstance();
     String? userToken = pref.getString(SharedPreferenceKeys.userLoginToken);
     if (userToken == null) {
@@ -32,10 +34,38 @@ class StarBuzzService {
       List<Influencer> influencers = [];
       var influencersList = jsonData['influencers'];
       for (var i in influencersList) {
-        Influencer influencer = Influencer(i['name'], i['photo'], i['followers']);
+        List<dynamic> categories = i['category'].map((element) => element['name']).toList();
+        Influencer influencer = Influencer(
+          i['name'],
+          i['photo'],
+          i['followers'],
+          categories,
+        );
         influencers.add(influencer);
       }
       return influencers;
     }
+    return [];
+  }
+
+  static Future<List<String>> categories() async {
+    var pref = await SharedPreferences.getInstance();
+    String? userToken = pref.getString(SharedPreferenceKeys.userLoginToken);
+    if (userToken == null) {
+      throw Exception("token doesn't exist");
+    }
+    Response response =
+        await get(Uri.parse("https://influence-marketing.herokuapp.com/api/inf_category"), headers: {"Authorization": "Bearer $userToken"});
+    var jsonData = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      List<String> categories = [];
+      var categoryList = jsonData['categories'];
+      for (var i in categoryList) {
+        String category = i['name'];
+        categories.add(category);
+      }
+      return categories;
+    }
+    return [];
   }
 }

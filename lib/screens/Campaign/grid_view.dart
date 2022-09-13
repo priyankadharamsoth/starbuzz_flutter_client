@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CustomGridView extends StatefulWidget {
   const CustomGridView({Key? key}) : super(key: key);
@@ -42,13 +43,15 @@ class _CustomGridViewState extends State<CustomGridView> {
 final List<Color> _listColors = [
   const Color.fromARGB(255, 236, 232, 254),
   const Color.fromARGB(255, 230, 244, 255),
-  const Color.fromARGB(255, 227, 239, 217),
   const Color.fromARGB(255, 255, 241, 220),
+  const Color.fromARGB(255, 227, 239, 217),
   const Color.fromARGB(255, 251, 231, 228)
 ];
 
-final List<String> _titles = ["Completed", "Ongoing", "Pending", "Initiated by you", "Rejected"];
-final List<String> numberOfComapnies = ['15', '24', '24', '15', '15'];
+final List<IconData> listOfIcons = [Icons.checklist, Icons.repeat, Icons.person_add_alt, Icons.pending_outlined, Icons.error];
+
+final List<String> _titles = ["Completed", "Ongoing", "Initiated by you", "Pending", "Rejected"];
+final List<String> numberOfComapnies = ['15', '24', '15', '24', '15'];
 
 Widget buildImageCard(BuildContext context, int index) {
   double bigBubbleRadius = 70;
@@ -73,9 +76,9 @@ Widget buildImageCard(BuildContext context, int index) {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 10, left: 10),
-              child: Icon(Icons.ac_unit_rounded),
+              child: Icon(listOfIcons[index]),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10, top: 20),

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:starbuzz_app/screens/campaign.dart';
-import 'package:starbuzz_app/screens/market_place.dart';
-
-void main() => runApp(MaterialApp(home: BottomNavBar()));
+import 'package:starbuzz_app/screens/Campaign/campaign.dart';
+import 'package:starbuzz_app/screens/MarketPlace/market_place.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
 
   @override
-  _BottomNavBarState createState() => _BottomNavBarState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
@@ -39,7 +37,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           Icon(Icons.chat, size: 30),
         ],
         color: Colors.white,
-        buttonBackgroundColor: Colors.grey.shade200,
+        buttonBackgroundColor: Colors.grey.shade300,
         backgroundColor: Theme.of(context).primaryColor,
         animationCurve: Curves.ease,
         animationDuration: const Duration(milliseconds: 600),
@@ -51,23 +49,5 @@ class _BottomNavBarState extends State<BottomNavBar> {
         letIndexChange: (index) => true,
       ),
     );
-    // body: Container(
-    //   color: Colors.blueAccent,
-    //   child: Center(
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: <Widget>[
-    //         Text(_page.toString(), textScaleFactor: 10.0),
-    //         ElevatedButton(
-    //           child: Text('Go To Page of index 1'),
-    //           onPressed: () {
-    //             final CurvedNavigationBarState? navBarState = _bottomNavigationKey.currentState;
-    //             navBarState?.setPage(1);
-    //           },
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // ),
   }
 }

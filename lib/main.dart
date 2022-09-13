@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:starbuzz_app/screens/campaign.dart';
-import 'package:starbuzz_app/screens/login_page.dart';
-import 'package:starbuzz_app/screens/market_place.dart';
+import 'package:starbuzz_app/screens/Login/login_page.dart';
 
 void main() {
   runApp(const MyApp());

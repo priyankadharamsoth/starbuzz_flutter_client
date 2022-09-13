@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:starbuzz_app/screens/nav_bar.dart';
-import 'package:starbuzz_app/screens/water_nav_bar.dart';
-import 'package:starbuzz_app/utils/grid_view.dart';
+import 'package:starbuzz_app/utils/database.dart';
+import 'package:starbuzz_app/screens/Campaign/grid_view.dart';
 
 class CampaignPage extends StatefulWidget {
   const CampaignPage({Key? key}) : super(key: key);
@@ -42,8 +41,10 @@ class _CampaignPageState extends State<CampaignPage> {
       ),
       body: const CustomGridView(),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: Icon(
+          onPressed: () {
+            StarBuzzService.categories();
+          },
+          child: const Icon(
             Icons.headset_mic_outlined,
             color: Colors.white,
           )),

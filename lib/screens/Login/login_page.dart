@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:starbuzz_app/screens/nav_bar.dart';
 import 'package:starbuzz_app/utils/auth_button.dart';
 import 'package:starbuzz_app/utils/custom_textfield.dart';
 import 'package:starbuzz_app/utils/database.dart';
-import 'package:starbuzz_app/utils/home_top_splash.dart';
+import 'package:starbuzz_app/screens/Login/home_top_splash.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -52,15 +53,17 @@ class _LoginPageState extends State<LoginPage> {
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: AuthButton(
-                    buttonText: "Influencer",
-                    onPressed: () {},
-                    leftPadding: 20,
-                    rightPadding: 20,
-                    backgroundColor: Colors.grey.shade200,
-                    categoryIcon: Icons.account_circle_rounded,
-                    widthBetweenIconAndText: 10,
-                    changeTextColor: Colors.black,
+                  child: Container(
+                    child: AuthButton(
+                      buttonText: "Influencer",
+                      onPressed: () {},
+                      leftPadding: 20,
+                      rightPadding: 20,
+                      backgroundColor: Colors.grey.shade200,
+                      categoryIcon: Icons.account_circle_rounded,
+                      widthBetweenIconAndText: 10,
+                      changeTextColor: Colors.black,
+                    ),
                   ),
                 )),
                 Expanded(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Category extends StatefulWidget {
+class CategoryWidget extends StatefulWidget {
   Color changeColor;
   Color changeTextColor;
   String category;
@@ -9,7 +9,7 @@ class Category extends StatefulWidget {
   double widthBetweenIconAndText;
   Function onPressed;
 
-  Category({
+  CategoryWidget({
     Key? key,
     required this.changeColor,
     required this.category,
@@ -21,10 +21,10 @@ class Category extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Category> createState() => _CategoryState();
+  State<CategoryWidget> createState() => _CategoryWidgetState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoryWidgetState extends State<CategoryWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
